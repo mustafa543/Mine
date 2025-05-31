@@ -4,7 +4,7 @@ import threading
 import time
 import random
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 # --- CONFIGURATION ---
 BOT_TOKEN = "47HxtCmFXxqVzQSGjQgBnDC1LRTrokf3aMFocbWQRxYzjhjxkfLGjzwE3PJhrCtdQkXPunr8cZZBAiEmY5W46V1UV8mFMZh"
@@ -145,7 +145,7 @@ def status(update: Update, context: CallbackContext):
     status_text = "✅ Mining is running." if mining_active else "⛔ Mining is stopped."
     update.message.reply_text(status_text)
 
-def start(update: Update, context: CallbackContext):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     update.message.reply_text(
         "🤖 Welcome to the Telegram XMRig Mining Bot!\n\n"
         "Commands:\n"
@@ -219,20 +219,16 @@ def info(update: Update, context: CallbackContext):
     )
     update.message.reply_text(info_text, parse_mode="Markdown")
 
+from telegram.ext import ApplicationBuilder
+
 def main():
-    updater = Updater(BOT_TOKEN, use_context=True)
-    dp = updater.dispatcher
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("mine", mine_command))
-    dp.add_handler(CommandHandler("setthreads", set_threads))
-    dp.add_handler(CommandHandler("status", status))
-    dp.add_handler(CommandHandler("setwallet", setwallet))
-    dp.add_handler(CommandHandler("restart", restart_miner))
-    dp.add_handler(CommandHandler("info", info))
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("mine", mine_command))
+    app.add_handler(CommandHandler("setthreads", set_threads))
+    app.add_handler(CommandHandler("status", status))
+    app.add_handler(CommandHandler("setwallet", set_wallet))
+    app.add_handler(CommandHandler("info", info))
 
-    updater.start_polling()
-    updater.idle()
-
-if __name__ == "__main__":
-    main()
+    app.run_polling()
